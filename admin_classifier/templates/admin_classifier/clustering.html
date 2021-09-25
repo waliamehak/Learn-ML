@@ -1,0 +1,240 @@
+{% load static %}
+
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>LearnML - Clustering</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="{% static 'assets/css/main.css' %}" />
+		<noscript><link rel="stylesheet" href="{% static 'assets/css/noscript.css' %}" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Page Wrapper -->
+			<div id="page-wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<h1><a href="{% url 'admin_home' %}">LearnML</a></h1>
+						<nav>
+							<a href="#menu">Menu</a>
+						</nav>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<div class="inner">
+							<h2>Menu</h2>
+							<ul class="links">
+								<li><a href="{% url 'admin_home' %}">Home</a></li>
+								<li><a href="{% url 'admin_classification' %}">Classification Training</a></li>
+								<li><a href="{% url 'admin_regression' %}">Regression Training</a></li>
+								<li><a href="{% url 'admin_clustering' %}">Clustering Training</a></li>
+								<li><a href="{% url 'learner_classification' %}">Classification Testing</a></li>
+								<li><a href="{% url 'learner_regression' %}">Regression Testing</a></li>
+								<li><a href="{% url 'learner_clustering' %}">Clustering Testing</a></li>
+								<li><a href="{% url 'logout' %}">Log Out</a></li>
+							</ul>
+							<a href="#" class="close">Close</a>
+						</div>
+					</nav>
+
+				<!-- Wrapper -->
+					<section id="wrapper">
+						<header>
+							<div class="inner">
+								<h2>Clustering</h2>
+								<p>In basic terms, the objective of clustering is to find different groups within the elements in the data. To do so, clustering algorithms find the structure in the data so that elements of the same cluster (or group) are more similar to each other than to those from different clusters. <a href="https://towardsdatascience.com/unsupervised-machine-learning-clustering-analysis-d40f2b34ae7e">Learn More</a></p>
+							</div>
+						</header>
+
+						<!-- Content -->
+							<div class="wrapper">
+								<div class="inner">
+
+									<section id="description_section">
+										<form method="post" action="#description_section">
+											{% csrf_token %}
+											<div class="fields">
+												<div class="field">
+													<h3 class="major">Algorithm Description:</h3>
+													<textarea name="algo_desc" rows="4">{{ algo_desc }}</textarea>
+												</div>
+
+												<div class="field">
+													<h3 class="major">Dataset Description:</h3>
+													<textarea name="ds_desc" rows="4">{{ ds_desc }}</textarea>
+												</div>
+											</div>
+											
+											<ul class="actions">
+												<li><input type="submit" name="update" value="Update"></li>
+											</ul>
+										</form>
+
+										{% if update_message %}
+											<p>{{ update_message }}</p>
+										{% endif %}
+									</section>
+
+									<section id="pkl_section">
+										<h2 class="major">Upload Pickle File</h2>
+										<form method="POST" action="#pkl_section" enctype="multipart/form-data">
+											{% csrf_token %}
+											<div class="fields">
+												<div class="field">
+													<input type="file" name="pkl">
+													<button type="submit">Upload Pickle File</button>
+												</div>
+											</div>
+										</form>
+									</section>
+
+									<section id="pkl_change_section">
+										{% if pkl_message %}
+											<p>{{ pkl_message }}</p>
+										{% endif %}
+										{% if pkl_message == 'File Uploaded' %}
+											<form method="post" action="#pkl_change_section" enctype="multipart/form-data">
+												{% csrf_token %}
+												<div class="fields">
+													<div class="field">
+														<h3>Provide all feature names separated by commas:</h3>
+														<p>For Example:<br>
+															Annual Income (In k$), Spending Score</p>
+														<textarea name="pkl_features" rows="4" required></textarea>
+													</div>
+													<div class="field">
+														<h3>Provide the label values and their output:</h3>
+														<p>For Example:<br>
+														0 = Standard Customer<br>
+														1 = Careless Customer<br>
+														3 = Sensible Customer<br>
+														2 = Target Customer<br>
+														4 = Careful Customer<br>
+														</p>
+														<textarea name="pkl_label_notes" rows="4" required></textarea>
+													</div>
+													<div class="field">
+														<h3>Upload a graph image:</h3>
+														<input type="file" name="graph_image" required>
+													</div>
+												</div>
+
+												<ul class="actions">
+													<li><input type="submit" name="pkl_change" value="Submit"/></li>
+												</ul>
+											</form>
+										{% endif %}
+
+										{% if pkl_change_message %}
+											<p>{{ pkl_change_message }}</p>
+										{% endif %}
+									</section>
+
+									<section id="csv_section">
+										<h2 class="major">OR Upload a CSV File</h2>
+										<form method="POST" action="#csv_section" enctype="multipart/form-data">
+											{% csrf_token %}
+											<div class="fields">
+												<div class="field">
+													<input type="file" name="csv">
+													<button type="submit">Upload CSV File</button>
+												</div>
+											</div>
+										</form>
+									</section>
+
+									<section id="csv_change_section">
+										{% if csv_message %}
+											<p>{{ csv_message }}</p>
+										{% endif %}
+										{% if csv_message == 'File Uploaded' %}
+											<h3 class="major">Please provide all the hyper parameter values:</h3>
+											<form method="post" action="#footer" enctype="multipart/form-data">
+												{% csrf_token %}
+												<div class="row gtr-uniform">
+													<div class="col-12">
+														<label for="n_clusters">Number of Clusters: </label>
+														<input type="number" id="n_clusters" name="n_clusters">
+													</div>
+													<div class="col-12">
+														<label for="init">Init:</label>
+														<select id="init" name="init">
+															<option value="k-means++">k-means++</option>
+															<option value="random">random</option>
+														</select>
+													</div>
+													<div class="col-12">
+														<label for="n_init">N Init:</label>
+														<input type="number" id="n_init" name="n_init">
+													</div>
+													<div class="col-12">
+														<label for="max_iter">Max Iter:</label>
+														<input type="number" id="max_iter" name="max_iter">
+													</div>
+													<h4>Provide the Features for Training:</h4>
+													{% for feature in features %}
+														<div class="col-12">
+															<input type="checkbox" id="{{ feature }}" name="training_features" value="{{ feature }}">
+															<label for="{{ feature }}">{{ feature }}</label>
+														</div>
+													{% endfor %}
+													<div class="col-12">
+														<h4>Provide the label value samples and their output:</h4>
+														<p>For Example:<br>
+														75,75 = Target Customer<br>
+														75,10 = Careful Customer<br>
+														10,75 = Careless Customer<br>
+														50,50 = Standard Customer<br>
+														10,10 = Sensible Customer</p>
+														<textarea name="csv_label_notes" rows="4" required></textarea>
+													</div>
+													<div class="col-12">
+														<h3>Upload a graph image:</h3>
+														<input type="file" name="csv_image" required>
+													</div>
+													<div class="col-12">
+														<ul class="actions">
+															<li><input type="submit" name="submit" value="Submit"/></li>
+														</ul>
+													</div>
+												</div>
+											</form>
+										{% endif %}
+
+										{% if submitbutton == "Submit" %}
+											<h2 class="major">Result</h2>
+											{% if message %}
+												<p> {{ message }} </p>
+											{% endif %}
+										{% endif %}	
+									</section>
+
+								</div>
+							</div>
+
+					</section>
+
+				<!-- Footer -->
+					<section id="footer">
+						<div class="inner">
+							<ul class="copyright">
+								<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="{% static 'assets/js/jquery.min.js' %}"></script>
+			<script src="{% static 'assets/js/jquery.scrollex.min.js' %}"></script>
+			<script src="{% static 'assets/js/browser.min.js' %}"></script>
+			<script src="{% static 'assets/js/breakpoints.min.js' %}"></script>
+			<script src="{% static 'assets/js/util.js' %}"></script>
+			<script src="{% static 'assets/js/main.js' %}"></script>
+
+	</body>
+</html>

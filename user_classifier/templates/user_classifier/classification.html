@@ -1,0 +1,164 @@
+{% load static %}
+
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>LearnML - Classification</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="{% static 'assets/css/main.css' %}" />
+		<noscript><link rel="stylesheet" href="{% static 'assets/css/noscript.css' %}" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Page Wrapper -->
+			<div id="page-wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<h1><a href="{% url 'learner_home' %}">LearnML</a></h1>
+						<nav>
+							<a href="#menu">Menu</a>
+						</nav>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<div class="inner">
+							<h2>Hello, {{ request.user }}</h2>
+							{% if request.user.is_staff %}
+								<ul class="links">
+									<li><a href="{% url 'admin_home' %}">Home</a></li>
+									<li><a href="{% url 'admin_classification' %}">Admin Classification</a></li>
+									<li><a href="{% url 'admin_regression' %}">Admin Regression</a></li>
+									<li><a href="{% url 'admin_clustering' %}">Admin Clustering</a></li>
+									<li><a href="{% url 'learner_classification' %}">Classification</a></li>
+									<li><a href="{% url 'learner_regression' %}">Regression</a></li>
+									<li><a href="{% url 'learner_clustering' %}">Clustering</a></li>
+									<li><a href="{% url 'logout' %}">Log Out</a></li>
+								</ul>
+							{% else %}
+								<ul class="links">
+									<li><a href="{% url 'learner_home' %}">Home</a></li>
+									<li><a href="{% url 'learner_classification' %}">Classification</a></li>
+									<li><a href="{% url 'learner_regression' %}">Regression</a></li>
+									<li><a href="{% url 'learner_clustering' %}">Clustering</a></li>
+									<li><a href="{% url 'logout' %}">Log Out</a></li>
+								</ul>
+							{% endif %}
+							<a href="#" class="close">Close</a>
+						</div>
+					</nav>
+
+				<!-- Wrapper -->
+					<section id="wrapper">
+						<header>
+							<div class="inner">
+								<h2>Classification</h2>
+								<p>Classification is the process of predicting the class of given data points. Classes are sometimes called as targets/ labels or categories. Classification predictive modeling is the task of approximating a mapping function (f) from input variables (X) to discrete output variables (y). <a href="https://towardsdatascience.com/machine-learning-classifiers-a5cc4e1b0623">Learn More</a></p>
+							</div>
+						</header>
+
+						<!-- Content -->
+							<div class="wrapper">
+								<div class="inner">
+
+									<h3 class="major">Algorithm Description:</h3>
+									<p>{{ algo_desc }}</p>
+
+									<h3 class="major">Dataset Description:</h3>
+									<p>{{ ds_desc }}</p>
+									
+									<h4>Sample Data:</h4>
+										<div class="table-wrapper">
+											<table class="alt">
+												<thead>
+													<tr>
+														<th>Number</th>
+														<th>Age</th>
+														<th>Salary</th>
+														<th>Purchased?</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>1</td>
+														<td>18</td>
+														<td>82000</td>
+														<td>No</td>
+													</tr>
+													<tr>
+														<td>2</td>
+														<td>29</td>
+														<td>80000</td>
+														<td>No</td>
+													</tr>
+													<tr>
+														<td>3</td>
+														<td>47</td>
+														<td>25000</td>
+														<td>Yes</td>
+													</tr>
+													<tr>
+														<td>4</td>
+														<td>45</td>
+														<td>26000</td>
+														<td>Yes</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+
+								</div>
+							</div>
+
+					</section>
+
+				<!-- Footer -->
+					<section id="footer">
+						<div class="inner">
+							<h2 class="major">Test Your Own Values</h2>
+							<p>Test the mentioned classification model by providing values in the following input fields. Note: Make sure that the provided values are in the numerical form and each field has been provided before submitting the button.</p>
+							<form method="post" action="#footer">
+								{% csrf_token %}
+								<div class="fields">
+									{% for feature in training_features %}
+										<div class="field">
+											<label for="user_inputs">{{ feature }}</label>
+											<input type="number" name="user_inputs" id="user_inputs" min="0" required/>
+										</div>
+									{% endfor %}
+								</div>
+								<ul class="actions">
+									<li><input type="submit" name="submit" value="Submit"/></li>
+								</ul>
+							</form>
+
+							{% if submitbutton == "Submit" %}
+							<div class="inner">
+								<h2 class="major">Result:</h2>
+								<p>{{ message }}</p>
+								<input type="checkbox" name="my_checkbox" id="my_checkbox" value="True">
+								<label for="my_checkbox">Show Graph</label>
+								<img src="{{ graph_image }}" name="my_image" id="my_image" alt="graph_image">
+							</div>
+							{% endif %}
+
+							<ul class="copyright">
+								<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="{% static 'assets/js/jquery.min.js' %}"></script>
+			<script src="{% static 'assets/js/jquery.scrollex.min.js' %}"></script>
+			<script src="{% static 'assets/js/browser.min.js' %}"></script>
+			<script src="{% static 'assets/js/breakpoints.min.js' %}"></script>
+			<script src="{% static 'assets/js/util.js' %}"></script>
+			<script src="{% static 'assets/js/main.js' %}"></script>
+
+	</body>
+</html>

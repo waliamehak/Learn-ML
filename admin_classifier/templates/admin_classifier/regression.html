@@ -1,0 +1,223 @@
+{% load static %}
+
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>LearnML - Regression</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="{% static 'assets/css/main.css' %}" />
+		<noscript><link rel="stylesheet" href="{% static 'assets/css/noscript.css' %}" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Page Wrapper -->
+			<div id="page-wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<h1><a href="{% url 'admin_home' %}">LearnML</a></h1>
+						<nav>
+							<a href="#menu">Menu</a>
+						</nav>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<div class="inner">
+							<h2>Menu</h2>
+							<ul class="links">
+								<li><a href="{% url 'admin_home' %}">Home</a></li>
+								<li><a href="{% url 'admin_classification' %}">Classification Training</a></li>
+								<li><a href="{% url 'admin_regression' %}">Regression Training</a></li>
+								<li><a href="{% url 'admin_clustering' %}">Clustering Training</a></li>
+								<li><a href="{% url 'learner_classification' %}">Classification Testing</a></li>
+								<li><a href="{% url 'learner_regression' %}">Regression Testing</a></li>
+								<li><a href="{% url 'learner_clustering' %}">Clustering Testing</a></li>
+								<li><a href="{% url 'logout' %}">Log Out</a></li>
+							</ul>
+							<a href="#" class="close">Close</a>
+						</div>
+					</nav>
+
+				<!-- Wrapper -->
+					<section id="wrapper">
+						<header>
+							<div class="inner">
+								<h2>Regression</h2>
+								<p>In statistical modeling, regression analysis is a set of statistical processes for estimating the relationships between a dependent variable (often called the 'outcome variable') and one or more independent variables (often called 'predictors', 'covariates', or 'features').<a href="https://towardsdatascience.com/introduction-to-regression-analysis-9151d8ac14b3">Learn More</a></p>
+							</div>
+						</header>
+
+						<!-- Content -->
+							<div class="wrapper">
+								<div class="inner">
+
+									<section id="description_section">
+										<form method="post" action="#description_section">
+											{% csrf_token %}
+											<div class="fields">
+												<div class="field">
+													<h3 class="major">Algorithm Description:</h3>
+													<textarea name="algo_desc" rows="4">{{ algo_desc }}</textarea>
+												</div>
+
+												<div class="field">
+													<h3 class="major">Dataset Description:</h3>
+													<textarea name="ds_desc" rows="4">{{ ds_desc }}</textarea>
+												</div>
+											</div>
+											
+											<ul class="actions">
+												<li><input type="submit" name="update" value="Update"></li>
+											</ul>
+										</form>
+
+										{% if update_message %}
+											<p>{{ update_message }}</p>
+										{% endif %}
+									</section>
+
+									<section id="pkl_section">
+										<h2 class="major">Upload Pickle File</h2>
+										<form method="POST" action="#pkl_section" enctype="multipart/form-data">
+											{% csrf_token %}
+											<div class="fields">
+												<div class="field">
+													<input type="file" name="pkl">
+													<button type="submit">Upload Pickle File</button>
+												</div>
+											</div>
+										</form>
+									</section>
+
+									<section id="pkl_change_section">
+										{% if pkl_message %}
+											<p>{{ pkl_message }}</p>
+										{% endif %}
+										{% if pkl_message == 'File Uploaded' %}
+											<form method="post" action="#pkl_change_section" enctype="multipart/form-data">
+												{% csrf_token %}
+												<div class="fields">
+													<div class="field">
+														<h3>Provide all feature names separated by commas:</h3>
+														<p>For Example:<br>
+															R&D Spend, Administration Spend, Marketing Spend</p>
+														<textarea name="pkl_features" rows="4" required></textarea>
+													</div>
+													<div class="field">
+														<h3>Upload a graph image:</h3>
+														<input type="file" name="graph_image" required>
+													</div>
+												</div>
+
+												<ul class="actions">
+													<li><input type="submit" name="pkl_change" value="Submit"/></li>
+												</ul>
+											</form>
+										{% endif %}
+
+										{% if pkl_change_message %}
+											<p>{{ pkl_change_message }}</p>
+										{% endif %}
+									</section>
+
+									<section id="csv_section">
+										<h2 class="major">OR Upload a CSV File</h2>
+										<form method="POST" action="#csv_section" enctype="multipart/form-data">
+											{% csrf_token %}
+											<div class="fields">
+												<div class="field">
+													<input type="file" name="csv">
+													<button type="submit">Upload CSV File</button>
+												</div>
+											</div>
+										</form>
+									</section>
+
+									<section id="csv_change_section">
+										{% if csv_message %}
+											<p>{{ csv_message }}</p>
+										{% endif %}
+										{% if csv_message == 'File Uploaded' %}
+											<h3 class="major">Please provide all the hyper parameter values:</h3>
+											<form method="post" action="#footer" enctype="multipart/form-data">
+												{% csrf_token %}
+												<div class="row gtr-uniform">
+													<div class="col-12">
+														<label for="fit_intercept">Fit Intercept:</label>
+														<select id="fit_intercept" name="fit_intercept">
+															<option value="True">True</option>
+															<option value="False">False</option>
+														</select>
+													</div>
+													<div class="col-12">
+														<label for="normalize">Normalize:</label>
+														<select id="normalize" name="normalize">
+															<option value="True">True</option>
+															<option value="False">False</option>
+														</select>
+													</div>
+													<h4>Provide the Features for Training:</h4>
+													{% for feature in features %}
+														<div class="col-12">
+															<input type="checkbox" id="{{ feature }}" name="training_features" value="{{ feature }}">
+															<label for="{{ feature }}">{{ feature }}</label>
+														</div>
+													{% endfor %}
+													<h4>Provide the Label for Training:</h4>
+													{% for feature in features %}
+														<div class="col-12">
+															<input type="radio" id="{{ forloop.counter }}" name="training_label" value="{{ feature }}">
+															<label for="{{ forloop.counter }}">{{ feature }}</label>
+														</div>
+													{% endfor %}
+													<div class="col-12">
+														<h3>Upload a graph image:</h3>
+														<input type="file" name="csv_image" required>
+													</div>
+													<div class="col-12">
+														<ul class="actions">
+															<li><input type="submit" name="submit" value="Submit"/></li>
+														</ul>
+													</div>
+												</div>
+											</form>
+										{% endif %}
+
+										{% if submitbutton == "Submit" %}
+											<h2 class="major">Result</h2>
+											{% if message == "Model Successfully Trained" %}
+												<p> {{ message }} with {{ rmse }} Root Mean-Squared Error</p>
+											{% else %}
+												<p> {{ message }} </p>
+											{% endif %}
+										{% endif %}	
+									</section>
+
+								</div>
+							</div>
+
+					</section>
+
+				<!-- Footer -->
+					<section id="footer">
+						<div class="inner">
+							<ul class="copyright">
+								<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="{% static 'assets/js/jquery.min.js' %}"></script>
+			<script src="{% static 'assets/js/jquery.scrollex.min.js' %}"></script>
+			<script src="{% static 'assets/js/browser.min.js' %}"></script>
+			<script src="{% static 'assets/js/breakpoints.min.js' %}"></script>
+			<script src="{% static 'assets/js/util.js' %}"></script>
+			<script src="{% static 'assets/js/main.js' %}"></script>
+
+	</body>
+</html>

@@ -1,0 +1,112 @@
+{% load static %}
+
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>LearnML</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="{% static 'assets/css/main.css' %}" />
+		<noscript><link rel="stylesheet" href="{% static 'assets/css/noscript.css' %}" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Page Wrapper -->
+			<div id="page-wrapper">
+
+				<!-- Header -->
+					<header id="header" class="alt">
+						<h1><a href="{% url 'admin_home' %}">LearnML</a></h1>
+						<nav>
+							<a href="#menu">Menu</a>
+						</nav>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<div class="inner">
+							<h2>Menu</h2>
+							<ul class="links">
+								<li><a href="{% url 'admin_home' %}">Home</a></li>
+								<li><a href="{% url 'admin_classification' %}">Classification Training</a></li>
+								<li><a href="{% url 'admin_regression' %}">Regression Training</a></li>
+								<li><a href="{% url 'admin_clustering' %}">Clustering Training</a></li>
+								<li><a href="{% url 'learner_classification' %}">Classification Testing</a></li>
+								<li><a href="{% url 'learner_regression' %}">Regression Testing</a></li>
+								<li><a href="{% url 'learner_clustering' %}">Clustering Testing</a></li>
+								<li><a href="{% url 'logout' %}">Log Out</a></li>
+							</ul>
+							<a href="#" class="close">Close</a>
+						</div>
+					</nav>
+
+				<!-- Banner -->
+					<section id="banner">
+						<div class="inner">
+							<div class="logo"><span class="icon fa-gem"></span></div>
+							<h2>Welcome to LearnML</h2>
+							<p>This website allows you learn machine learning by testing various models.</p>
+						</div>
+					</section>
+
+				<!-- Wrapper -->
+					<section id="wrapper">
+
+						<!-- One -->
+							<section id="one" class="wrapper spotlight style1">
+								<div class="inner">
+									<a href="{% url 'admin_classification' %}" class="image"><img src="{% static 'images/classification.jpg' %}" alt="" /></a>
+									<div class="content">
+										<h2 class="major">Classification</h2>
+										<p>Classification is the process of predicting the class of given data points. Classes are sometimes called as targets/ labels or categories. Classification predictive modeling is ...</p>
+										<a href="{% url 'admin_classification' %}" class="special">Learn more</a>
+									</div>
+								</div>
+							</section>
+
+						<!-- Two -->
+							<section id="two" class="wrapper alt spotlight style2">
+								<div class="inner">
+									<a href="{% url 'admin_regression' %}" class="image"><img src="{% static 'images/regression.jpg' %}" alt="" /></a>
+									<div class="content">
+										<h2 class="major">Regression</h2>
+										<p>In statistical modeling, regression analysis is a set of statistical processes for estimating the relationships between a dependent variable (often called the 'outcome variable') ...</p>
+										<a href="{% url 'admin_regression' %}" class="special">Learn more</a>
+									</div>
+								</div>
+							</section>
+
+						<!-- Three -->
+							<section id="three" class="wrapper spotlight style3">
+								<div class="inner">
+									<a href="{% url 'admin_clustering' %}" class="image"><img src="{% static 'images/cluster.png' %}" alt="" /></a>
+									<div class="content">
+										<h2 class="major">Clustering</h2>
+										<p>In basic terms, the objective of clustering is to find different groups within the elements in the data. To do so, clustering algorithms find the structure in the data so that elements ...</p>
+										<a href="{% url 'admin_clustering' %}" class="special">Learn more</a>
+									</div>
+								</div>
+							</section>
+					</section>
+
+				<!-- Footer -->
+					<section id="footer">
+						<div class="inner">
+							<ul class="copyright">
+								<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="{% static 'assets/js/jquery.min.js' %}"></script>
+			<script src="{% static 'assets/js/jquery.scrollex.min.js' %}"></script>
+			<script src="{% static 'assets/js/browser.min.js' %}"></script>
+			<script src="{% static 'assets/js/breakpoints.min.js' %}"></script>
+			<script src="{% static 'assets/js/util.js' %}"></script>
+			<script src="{% static 'assets/js/main.js' %}"></script>
+
+	</body>
+</html>

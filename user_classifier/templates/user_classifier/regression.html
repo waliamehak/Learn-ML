@@ -1,0 +1,164 @@
+{% load static %}
+
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>LearnML - Regression</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="{% static 'assets/css/main.css' %}" />
+		<noscript><link rel="stylesheet" href="{% static 'assets/css/noscript.css' %}" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Page Wrapper -->
+			<div id="page-wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<h1><a href="{% url 'learner_home' %}">LearnML</a></h1>
+						<nav>
+							<a href="#menu">Menu</a>
+						</nav>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<div class="inner">
+							<h2>Hello, {{ request.user }}</h2>
+							{% if request.user.is_staff %}
+								<ul class="links">
+									<li><a href="{% url 'admin_home' %}">Home</a></li>
+									<li><a href="{% url 'admin_classification' %}">Admin Classification</a></li>
+									<li><a href="{% url 'admin_regression' %}">Admin Regression</a></li>
+									<li><a href="{% url 'admin_clustering' %}">Admin Clustering</a></li>
+									<li><a href="{% url 'learner_classification' %}">Classification</a></li>
+									<li><a href="{% url 'learner_regression' %}">Regression</a></li>
+									<li><a href="{% url 'learner_clustering' %}">Clustering</a></li>
+									<li><a href="{% url 'logout' %}">Log Out</a></li>
+								</ul>
+							{% else %}
+								<ul class="links">
+									<li><a href="{% url 'learner_home' %}">Home</a></li>
+									<li><a href="{% url 'learner_classification' %}">Classification</a></li>
+									<li><a href="{% url 'learner_regression' %}">Regression</a></li>
+									<li><a href="{% url 'learner_clustering' %}">Clustering</a></li>
+									<li><a href="{% url 'logout' %}">Log Out</a></li>
+								</ul>
+							{% endif %}
+							<a href="#" class="close">Close</a>
+						</div>
+					</nav>
+
+				<!-- Wrapper -->
+					<section id="wrapper">
+						<header>
+							<div class="inner">
+								<h2>Regression</h2>
+								<p>In statistical modeling, regression analysis is a set of statistical processes for estimating the relationships between a dependent variable (often called the 'outcome variable') and one or more independent variables (often called 'predictors', 'covariates', or 'features'). <a href="https://towardsdatascience.com/introduction-to-regression-analysis-9151d8ac14b3">Learn More</a></p>
+							</div>
+						</header>
+
+						<!-- Content -->
+							<div class="wrapper">
+								<div class="inner">
+
+									<h3 class="major">Algorithm Description:</h3>
+									<p>{{ algo_desc }}</p>
+
+									<h3 class="major">Dataset Description:</h3>
+									<p>{{ ds_desc }}</p>
+									
+									<h4>Sample Data:</h4>
+										<div class="table-wrapper">
+											<table class="alt">
+												<thead>
+													<tr>
+														<th>R&D Spend</th>
+														<th>Administration</th>
+														<th>Marketing Spend</th>
+														<th>Profit</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>165349.2</td>
+														<td>136897.8</td>
+														<td>471784.1</td>
+														<td>192261.83</td>
+													</tr>
+													<tr>
+														<td>162597.7</td>
+														<td>151377.59</td>
+														<td>443898.53</td>
+														<td>191792.06</td>
+													</tr>
+													<tr>
+														<td>142107.34</td>
+														<td>91391.77</td>
+														<td>366168.42</td>
+														<td>166187.94</td>
+													</tr>
+													<tr>
+														<td>100671.96</td>
+														<td>91790.61</td>
+														<td>249744.55</td>
+														<td>144259.4</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+
+								</div>
+							</div>
+
+					</section>
+
+				<!-- Footer -->
+					<section id="footer">
+						<div class="inner">
+							<h2 class="major">Test Your Own Values</h2>
+							<p>Test the mentioned regression model by providing values in the following input fields. Note: Make sure that the provided values are in the numerical form and each field has been provided before submitting the button.</p>
+							<form method="post" action="#footer">
+								{% csrf_token %}
+								<div class="fields">
+									{% for feature in training_features %}
+										<div class="field">
+											<label for="user_inputs">{{ feature }}</label>
+											<input type="number" name="user_inputs" id="user_inputs" min="0" required/>
+										</div>
+									{% endfor %}
+								</div>
+								<ul class="actions">
+									<li><input type="submit" name="submit" value="Submit"/></li>
+								</ul>
+							</form>
+
+							{% if submitbutton == "Submit" %}
+							<div class="inner">
+								<h2 class="major">Result:</h2>
+								<p>{{ message }}</p>
+								<input type="checkbox" name="my_checkbox" id="my_checkbox" value="True">
+								<label for="my_checkbox">Show Graph</label>
+								<img src="{{ graph_image }}" name="my_image" id="my_image" alt="graph_image">
+							</div>
+							{% endif %}
+
+							<ul class="copyright">
+								<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="{% static 'assets/js/jquery.min.js' %}"></script>
+			<script src="{% static 'assets/js/jquery.scrollex.min.js' %}"></script>
+			<script src="{% static 'assets/js/browser.min.js' %}"></script>
+			<script src="{% static 'assets/js/breakpoints.min.js' %}"></script>
+			<script src="{% static 'assets/js/util.js' %}"></script>
+			<script src="{% static 'assets/js/main.js' %}"></script>
+
+	</body>
+</html>
